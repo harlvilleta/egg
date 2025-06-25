@@ -1,72 +1,144 @@
-# Harley's Fresh Eggs Shop
+# 🥚 Harley's Egg Shop
 
-A modern, responsive web application for ordering fresh eggs online. Built with Next.js and Tailwind CSS, this application provides a seamless shopping experience on both desktop and mobile devices.
+A modern e-commerce web application for Harley's family-owned egg farm in Barangay Vito, Minglanilla Cebu, Philippines. Built with Next.js, TypeScript, and Tailwind CSS.
 
-## Quick Start
+## ✨ Features
 
-1. **Run the Setup Script**
-   ```powershell
-   # Open PowerShell and run:
-   .\setup.ps1
+### 🛒 E-commerce Features
+- **Quantity Selection**: Choose between individual eggs, half-dozen (6 eggs), or dozen (12 eggs)
+- **Shopping Cart**: Add, remove, and manage items with real-time updates
+- **Order History**: View all past orders with detailed information
+- **Reorder Functionality**: One-click reorder from previous orders
+
+### 💳 Payment & Delivery
+- **Multiple Payment Methods**: GCash, PayMaya, and Bank Transfer
+- **Delivery Time Slots**: Morning (8AM-12PM), Afternoon (1PM-5PM), Evening (6PM-9PM)
+- **Customer Information**: Complete delivery details collection
+- **Order Tracking**: Visual status indicators for order progress
+
+### 🎨 User Experience
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- **Modern UI**: Clean, farm-themed design with beautiful animations
+- **Local Storage**: Persistent cart and order history
+- **TypeScript**: Full type safety throughout the application
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/harlvilleta/egg.git
+   cd egg
    ```
-   This will:
-   - Check if Node.js and npm are installed
-   - Install all project dependencies
-   - Create necessary directories
-   - Create an initial backup of your code
 
-2. **Start the Development Server**
-   ```powershell
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
    npm run dev
    ```
-   The application will be available at: http://localhost:3000
 
-## Features
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-- 🥚 Fresh egg ordering system
-- 🛒 Shopping cart functionality
-- 📱 Mobile-friendly design
-- 💳 Philippine Peso (₱) pricing
-- 🏠 Free delivery for orders over ₱100
-- 📍 Location-based services
-- 🔄 Real-time cart updates
-- 🎨 Modern and clean UI
-
-## Project Structure
+## 🏗️ Project Structure
 
 ```
-harley/
-├── app/                    # Main application code
-│   ├── components/        # React components
-│   ├── context/          # React context providers
-│   └── page.tsx          # Main page component
-├── public/               # Static files
-│   └── images/          # Image assets
-├── setup.ps1            # Setup script
-└── package.json         # Project dependencies
+app/
+├── components/          # React components
+│   ├── Cart.tsx        # Shopping cart functionality
+│   ├── Checkout.tsx    # Checkout process
+│   ├── OrderHistory.tsx # Order history display
+│   ├── ProductCard.tsx # Product display cards
+│   ├── QuantitySelector.tsx # Quantity selection
+│   └── ...
+├── context/            # React contexts
+│   ├── OrderContext.tsx # Order management
+│   └── UserContext.tsx # User state management
+├── page.tsx           # Main page
+├── layout.tsx         # Root layout
+└── globals.css        # Global styles
 ```
 
-## Development
+## 🛠️ Technologies Used
 
-- **Adding New Features**: Create new components in the `app/components` directory
-- **Styling**: Uses Tailwind CSS for styling
-- **State Management**: Uses React Context for state management
-- **Routing**: Uses Next.js App Router
+- **Next.js 14** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **React Context** - State management
+- **Local Storage** - Data persistence
 
-## Backup
+## 📱 Features in Detail
 
-The setup script automatically creates a backup of your code in the `harley_backup_[timestamp]` directory. You can also manually create backups by:
+### Quantity Selection
+- Individual eggs (1 egg)
+- Half-dozen (6 eggs)
+- Dozen (12 eggs)
+- Real-time total calculation
 
-1. Creating a new directory
-2. Copying all files to the new directory
+### Order Management
+- Complete order history
+- Order status tracking
+- Detailed order information
+- Reorder functionality
 
-## Support
+### Payment Integration
+- GCash mobile payment
+- PayMaya digital wallet
+- Bank transfer option
+- Secure checkout process
 
-For any issues or questions, please:
-1. Check the documentation
-2. Review the code structure
-3. Contact the development team
+### Delivery System
+- Flexible time slots
+- Address management
+- Contact information
+- Special instructions
 
-## License
+## 🎯 How to Use
+
+1. **Browse Products**: View available egg products with descriptions and pricing
+2. **Select Quantity**: Choose your preferred quantity type and amount
+3. **Add to Cart**: Items are added to your shopping cart
+4. **Checkout**: Complete the two-step checkout process
+5. **Order History**: View and reorder from your order history
+
+## 🌟 Key Features
+
+- **Farm-Fresh Theme**: Beautiful farm-themed design
+- **Mobile Responsive**: Works on all devices
+- **Fast Performance**: Optimized for speed
+- **User-Friendly**: Intuitive navigation and interactions
+- **Data Persistence**: Cart and orders saved locally
+
+## 📄 License
 
 This project is licensed under the MIT License.
+
+## 👨‍🌾 About Harley's Egg Shop
+
+Harley's Egg Shop is a family-owned farm located in Barangay Vito, Minglanilla Cebu, Philippines. We are dedicated to providing the freshest, highest-quality eggs from our free-range chickens.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📞 Contact
+
+- **Location**: Barangay Vito, Minglanilla Cebu, 6046
+- **GitHub**: [@harlvilleta](https://github.com/harlvilleta)
+
+---
+
+Made with ❤️ for Harley's Egg Shop
