@@ -10,7 +10,7 @@ export interface OrderItem {
   size: string;
   type: string;
   description: string;
-  quantityType: 'individual' | 'half-dozen' | 'dozen';
+  quantityType: 'tray' | 'half-tray';
 }
 
 export interface Order {
@@ -19,7 +19,7 @@ export interface Order {
   total: number;
   orderDate: Date;
   status: 'pending' | 'confirmed' | 'preparing' | 'delivering' | 'delivered' | 'cancelled';
-  paymentMethod: 'gcash' | 'paymaya' | 'bank-transfer';
+  paymentMethod: 'gcash' | 'paymaya' | 'bank-transfer' | 'cod';
   deliveryTimeSlot: string;
   customerName: string;
   deliveryAddress: string;
@@ -31,6 +31,7 @@ interface OrderContextType {
   addOrder: (order: Omit<Order, 'id' | 'orderDate'>) => void;
   getOrderById: (id: string) => Order | undefined;
   reorder: (orderId: string) => OrderItem[];
+  clearOrders: () => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -77,12 +78,20 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     return order ? order.items : [];
   };
 
+  const clearOrders = () => {
+    setOrders([]);
+    if (isClient) {
+      localStorage.removeItem('orders');
+    }
+  };
+
   return (
     <OrderContext.Provider value={{ 
       orders, 
       addOrder,
       getOrderById,
-      reorder
+      reorder,
+      clearOrders
     }}>
       {children}
     </OrderContext.Provider>

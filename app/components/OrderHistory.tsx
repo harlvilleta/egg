@@ -27,17 +27,18 @@ const statusLabels = {
 };
 
 export default function OrderHistory({ onReorder, onClose }: OrderHistoryProps) {
-  const { orders } = useOrders();
+  const { orders, clearOrders } = useOrders();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: string | Date) => {
     return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
-    }).format(date);
+    }).format(new Date(date));
   };
 
   const handleReorder = (order: Order) => {
@@ -51,15 +52,47 @@ export default function OrderHistory({ onReorder, onClose }: OrderHistoryProps) 
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Order History</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setShowConfirm(true)}
+                className="text-red-500 hover:text-red-700 border border-red-200 bg-red-50 px-3 py-1 rounded-md text-sm font-medium"
+                title="Clear Order History"
+              >
+                Clear All
+              </button>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
           </div>
+
+          {showConfirm && (
+            <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+                <h3 className="text-lg font-semibold mb-4">Clear Order History?</h3>
+                <p className="mb-6 text-gray-700">This will remove all your order history. This action cannot be undone.</p>
+                <div className="flex justify-end space-x-3">
+                  <button
+                    onClick={() => setShowConfirm(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => { clearOrders(); setShowConfirm(false); }}
+                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                  >
+                    Clear All
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {orders.length === 0 ? (
             <div className="text-center py-8">
@@ -76,10 +109,10 @@ export default function OrderHistory({ onReorder, onClose }: OrderHistoryProps) 
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h3 className="text-lg font-medium text-gray-900">
-                        Order #{order.id.slice(-6)}
+                        Order #{order.id ? order.id.slice(-6) : 'N/A'}
                       </h3>
                       <p className="text-sm text-gray-500">
-                        {formatDate(order.orderDate)}
+                        {order.orderDate ? formatDate(order.orderDate) : 'No date'}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -100,7 +133,7 @@ export default function OrderHistory({ onReorder, onClose }: OrderHistoryProps) 
                       <span className="font-medium">{order.items.length}</span> item{order.items.length !== 1 ? 's' : ''}
                     </div>
                     <div className="text-lg font-medium text-gray-900">
-                      ₱{order.total.toFixed(2)}
+                      ₱{typeof order.total === 'number' ? order.total.toFixed(2) : '0.00'}
                     </div>
                   </div>
 
@@ -113,9 +146,9 @@ export default function OrderHistory({ onReorder, onClose }: OrderHistoryProps) 
                           {order.items.map((item, index) => (
                             <div key={index} className="flex justify-between text-sm">
                               <span>
-                                {item.name} ({item.quantity} {item.quantityType})
+                                {item.name ? item.name : 'Unknown'} ({item.quantity ? item.quantity : 0} {item.quantityType ? item.quantityType : ''})
                               </span>
-                              <span>₱{(item.price * item.quantity).toFixed(2)}</span>
+                              <span>₱{typeof item.price === 'number' && typeof item.quantity === 'number' ? (item.price * item.quantity).toFixed(2) : '0.00'}</span>
                             </div>
                           ))}
                         </div>
@@ -126,16 +159,16 @@ export default function OrderHistory({ onReorder, onClose }: OrderHistoryProps) 
                         <div>
                           <h4 className="text-sm font-medium text-gray-900 mb-2">Delivery Details:</h4>
                           <div className="text-sm text-gray-600 space-y-1">
-                            <p><span className="font-medium">Name:</span> {order.customerName}</p>
-                            <p><span className="font-medium">Address:</span> {order.deliveryAddress}</p>
-                            <p><span className="font-medium">Contact:</span> {order.contactNumber}</p>
-                            <p><span className="font-medium">Time Slot:</span> {order.deliveryTimeSlot}</p>
+                            <p><span className="font-medium">Name:</span> {order.customerName ? order.customerName : 'N/A'}</p>
+                            <p><span className="font-medium">Address:</span> {order.deliveryAddress ? order.deliveryAddress : 'N/A'}</p>
+                            <p><span className="font-medium">Contact:</span> {order.contactNumber ? order.contactNumber : 'N/A'}</p>
+                            <p><span className="font-medium">Time Slot:</span> {order.deliveryTimeSlot ? order.deliveryTimeSlot : 'N/A'}</p>
                           </div>
                         </div>
                         <div>
                           <h4 className="text-sm font-medium text-gray-900 mb-2">Payment:</h4>
                           <div className="text-sm text-gray-600">
-                            <p><span className="font-medium">Method:</span> {order.paymentMethod}</p>
+                            <p><span className="font-medium">Method:</span> {order.paymentMethod ? order.paymentMethod : 'N/A'}</p>
                           </div>
                         </div>
                       </div>
